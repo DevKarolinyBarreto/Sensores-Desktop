@@ -8,6 +8,7 @@ from PyQt5.QtCore import Qt
 from view.tela2 import CadastroPlantas
 from view.tela3 import Dados
 from view.view_banco import view_plantas
+from view.view_dados import view_dados
 
 class tela1(QMainWindow):
     def __init__(self):
@@ -16,6 +17,7 @@ class tela1(QMainWindow):
         self.window_st = CadastroPlantas()
         self.window_st2 = Dados() 
         self.window_st3 = view_plantas()
+        self.window_st4 = view_dados()
 
     def start1(self):
         self.window_st.show()
@@ -24,7 +26,10 @@ class tela1(QMainWindow):
            self.window_st2.show()
 
     def start3(self):
-            self.window_st3.show()      
+            self.window_st3.show() 
+
+    def start4(self):
+            self.window_st4.show()                 
 
     def initUI(self):
         self.setWindowTitle("Tela principal") 
@@ -42,19 +47,21 @@ class tela1(QMainWindow):
 
         botao_enviar = QPushButton("Enviar dados sobre uma planta ")
         botao_enviar.setStyleSheet("background-color: white; color: rgb(107, 48, 103;")  
-        # botao_enviar.setFont(QFont("Arial", 14, QFont.Bold))  
         botao_enviar.clicked.connect(self.start2) 
 
         botao_view = QPushButton("Ver plantas cadastradas")
         botao_view.setStyleSheet("background-color: white; color: rgb(107, 48, 103;")  
-        botao_enviar.clicked.connect(self.start3) 
+        botao_view.clicked.connect(self.start3) 
+
+        botao_view2 = QPushButton("Ver dados")
+        botao_view2.setStyleSheet("background-color: white; color: rgb(107, 48, 103;")  
+        botao_view2.clicked.connect(self.start4) 
 
         layout.addWidget(titulo)
         layout.addWidget(botao_cadastrar)
         layout.addWidget(botao_enviar)
         layout.addWidget(botao_view)
-
-        # layout = QVBoxLayout() 
+        layout.addWidget(botao_view2)
 
         dados = QLabel("Envie os dados:)")
         dados.setFont(QFont("Arial", 14, QFont.Bold))  

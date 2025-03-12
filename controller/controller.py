@@ -11,3 +11,6 @@ class controller:
     
     def obter_plantas(self):
         return self.model.listar()
+    
+    def obter_dados(self):
+        return self.model.listar2()

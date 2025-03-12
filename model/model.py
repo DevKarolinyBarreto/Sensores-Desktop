@@ -24,6 +24,9 @@ class Model:
         self.cursor.execute("select * from cadastro_plantas")
         return self.cursor.fetchall()
 
+    def listar2(self):
+        self.cursor.execute("select * from dados")
+        return self.cursor.fetchall()
 
     def fechar_conexao(self):
       

@@ -9,7 +9,7 @@ from controller.controller import controller
 class view_plantas(QWidget):
     def __init__(self):
         super().__init__()
-        self.controller = controller()
+
         self.initUI()
 
     def initUI(self):
@@ -27,11 +27,29 @@ class view_plantas(QWidget):
         self.carregar_dados()
 
     def carregar_dados(self):
-        dados = self.controller.obter_plantas()
-        self.tabela.setRowCount(len(dados))
+    
+        dados = self.controller = controller()
+        dados2 = self.controller.obter_plantas()
+    
+        if not dados2: 
+            return 
 
-        for row, planta in enumerate(dados):
+        self.tabela.setRowCount(len(dados2))
+        
+
+        for row, planta in enumerate(dados2):
             self.tabela.setItem(row, 0, QTableWidgetItem(str(planta[0])))
             self.tabela.setItem(row, 1, QTableWidgetItem(planta[1]))
             self.tabela.setItem(row, 2, QTableWidgetItem(planta[2]))
 
+
+    # def dados(self):
+    #     dados2 = self.controller.obter_dados()
+    #     self.tabela.setRowCount(len(dados2))
+
+        
+    #     for row, dados in enumerate(dados2):
+    #         self.tabela.setItem(row, 0, QTableWidgetItem(str(dados[0])))
+    #         self.tabela.setItem(row, 1, QTableWidgetItem(dados[1]))
+    #         self.tabela.setItem(row, 2, QTableWidgetItem(dados[2]))
+    #         self.tabela.setItem(row, 2, QTableWidgetItem(dados[3]))
