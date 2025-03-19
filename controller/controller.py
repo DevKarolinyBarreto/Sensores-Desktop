@@ -14,3 +14,7 @@ class controller:
     
     def obter_dados(self):
         return self.model.listar2()
+    
+    def atualizar_planta(self, planta_id, nome_popular, nome_cientifico):
+        if nome_popular and nome_cientifico:
+            return self.model.update_planta(nome_popular, nome_cientifico, planta_id)

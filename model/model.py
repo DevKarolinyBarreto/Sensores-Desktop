@@ -32,3 +32,11 @@ class Model:
       
         self.cursor.close() 
         self.conexao.close() 
+
+    def update_planta(self, nome_popular, nome_cientifico, planta_id):
+        sql = "UPDATE cadastro_plantas SET nome_popular = %s, nome_cientifico = %s where id = %s"
+        valores = (nome_popular, nome_cientifico, planta_id)
+        self.cursor.execute(sql, valores)
+        self.conexao.commit()
+        return self.cursor.lastrowid
+ 

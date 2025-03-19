@@ -5,6 +5,7 @@ from PyQt5.QtGui import QFont, QPixmap
 from PyQt5.QtCore import Qt
 
 from controller.controller import controller
+from view.editar_planta import editar_planta
 
 class view_plantas(QWidget):
     def __init__(self):
@@ -20,11 +21,18 @@ class view_plantas(QWidget):
         self.tabela.setColumnCount(3)
         self.tabela.setHorizontalHeaderLabels (["ID", "Nome Popular", "Nome Científico"])
         layout.addWidget(self.tabela)
+
         botao_atualizar = QPushButton("Atualizar") 
         botao_atualizar.clicked.connect(self.carregar_dados)
         layout.addWidget(botao_atualizar)
         self.setLayout(layout)
         self.carregar_dados()
+
+        botao_edicao = QPushButton("Editar") 
+        botao_edicao.clicked.connect(self.abrir_tela_edicao)
+        layout.addWidget(botao_edicao)
+        self.setLayout(layout)
+        self.abrir_tela_edicao()
 
     def carregar_dados(self):
     
@@ -36,20 +44,23 @@ class view_plantas(QWidget):
 
         self.tabela.setRowCount(len(dados2))
         
-
         for row, planta in enumerate(dados2):
             self.tabela.setItem(row, 0, QTableWidgetItem(str(planta[0])))
             self.tabela.setItem(row, 1, QTableWidgetItem(planta[1]))
             self.tabela.setItem(row, 2, QTableWidgetItem(planta[2]))
 
+     
+    def abrir_tela_edicao(self):
+        linha_selecionada = self.tabela.currentRow()
 
-    # def dados(self):
-    #     dados2 = self.controller.obter_dados()
-    #     self.tabela.setRowCount(len(dados2))
+        if linha_selecionada != -1:
+            planta_id = int(self.tabela.item(linha_selecionada, 0).text())
+            nome_popular = self.tabela.item(linha_selecionada, 1).text()
+            nome_cientifico = self.tabela.item(linha_selecionada, 2).text()
 
-        
-    #     for row, dados in enumerate(dados2):
-    #         self.tabela.setItem(row, 0, QTableWidgetItem(str(dados[0])))
-    #         self.tabela.setItem(row, 1, QTableWidgetItem(dados[1]))
-    #         self.tabela.setItem(row, 2, QTableWidgetItem(dados[2]))
-    #         self.tabela.setItem(row, 2, QTableWidgetItem(dados[3]))
+            self.tela_edicao = editar_planta(planta_id, nome_popular, nome_cientifico)
+            self.tela_edicao.show()
+            self.close()
+
+
+

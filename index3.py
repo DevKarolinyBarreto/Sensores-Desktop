@@ -18,6 +18,7 @@ class tela1(QMainWindow):
         self.window_st2 = Dados() 
         self.window_st3 = view_plantas()
         self.window_st4 = view_dados()
+        
 
     def start1(self):
         self.window_st.show()
@@ -30,6 +31,7 @@ class tela1(QMainWindow):
 
     def start4(self):
             self.window_st4.show()                 
+                 
 
     def initUI(self):
         self.setWindowTitle("Tela principal") 
@@ -57,11 +59,14 @@ class tela1(QMainWindow):
         botao_view2.setStyleSheet("background-color: white; color: rgb(107, 48, 103;")  
         botao_view2.clicked.connect(self.start4) 
 
+
         layout.addWidget(titulo)
         layout.addWidget(botao_cadastrar)
         layout.addWidget(botao_enviar)
         layout.addWidget(botao_view)
         layout.addWidget(botao_view2)
+        
+
 
         dados = QLabel("Envie os dados:)")
         dados.setFont(QFont("Arial", 14, QFont.Bold))  

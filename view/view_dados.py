@@ -5,11 +5,12 @@ from PyQt5.QtGui import QFont, QPixmap
 from PyQt5.QtCore import Qt
 
 from controller.controller import controller
+from view.editar_planta import editar_planta
 
 class view_dados(QWidget):
     def __init__(self):
         super().__init__()
-        #self.controller = controller()
+        self.controller = controller()
         self.initUI()
 
     def initUI(self):
@@ -20,11 +21,12 @@ class view_dados(QWidget):
         self.tabela.setColumnCount(4)
         self.tabela.setHorizontalHeaderLabels (["id", "temperatura", "luminosidade","umidade"])
         layout.addWidget(self.tabela)
+
         botao_atualizar = QPushButton("Atualizar") 
         botao_atualizar.clicked.connect(self.carregar_dados)
         layout.addWidget(botao_atualizar)
         self.setLayout(layout)
-        # self.carregar_dados()
+
 
     def carregar_dados(self):
         self.controller = controller()
@@ -42,3 +44,6 @@ class view_dados(QWidget):
             self.tabela.setItem(row, 3, QTableWidgetItem(str(dados[3])))
 
             self.tabela.viewport().update()
+
+
+
