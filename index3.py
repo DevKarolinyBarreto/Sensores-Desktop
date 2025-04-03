@@ -65,8 +65,6 @@ class tela1(QMainWindow):
         layout.addWidget(botao_enviar)
         layout.addWidget(botao_view)
         layout.addWidget(botao_view2)
-        
-
 
         dados = QLabel("Envie os dados:)")
         dados.setFont(QFont("Arial", 14, QFont.Bold))  
@@ -83,3 +81,6 @@ if __name__ == "__main__":
     janela = tela1() 
     janela.show() 
     sys.exit(app.exec_())  
+
+
+

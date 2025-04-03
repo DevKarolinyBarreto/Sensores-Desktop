@@ -1,55 +1,49 @@
-import sys
-import os
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QLineEdit, QFileDialog, QMessageBox,  QTableWidget, QTableWidgetItem
-from PyQt5.QtGui import QFont, QPixmap
-from PyQt5.QtCore import Qt
-
+from PyQt5.QtWidgets import QWidget, QLabel, QPushButton, QVBoxLayout, QLineEdit, QMessageBox
 from controller.controller import controller
 
 class editar_planta(QWidget):
     def __init__(self, planta_id, nome_popular, nome_cientifico):
         super().__init__()
-        self.controller = controller()
         self.planta_id = planta_id
+        self.controller = controller()
+
         self.initUI(nome_popular, nome_cientifico)
-        
 
     def initUI(self, nome_popular, nome_cientifico):
-        self.setWindowTitle('Editar plantas ❋')    
-        self.setGeometry(500, 150, 300, 200)
+        self.setWindowTitle("Editar Planta")
+        self.setGeometry(600, 300, 300, 200)
 
         layout = QVBoxLayout()
 
-        self.nome_popular_input = QLineEdit(nome_popular)
-        self.nome_cientifico_input = QLineEdit(nome_cientifico)
-        self.salvar_button = QPushButton("Salvar alterações")
-        self.salvar_button.clicked.connect(self.salvar_edicao)
-
-
-        layout.addWidget(QLabel("Nome popular: "))
+        self.nome_popular_input = QLineEdit()
+        self.nome_popular_input.setText(nome_popular)
+        layout.addWidget(QLabel("Nome Popular:"))
         layout.addWidget(self.nome_popular_input)
 
-        layout.addWidget(QLabel("Nome cientifico: "))
+        self.nome_cientifico_input = QLineEdit()
+        self.nome_cientifico_input.setText(nome_cientifico)
+        layout.addWidget(QLabel("Nome Científico:"))
         layout.addWidget(self.nome_cientifico_input)
 
-        layout.addWidget(self.salvar_button)
+        botao_salvar = QPushButton("Salvar")
+        botao_salvar.clicked.connect(self.salvar_dados)
+        layout.addWidget(botao_salvar)
 
         self.setLayout(layout)
 
-    def salvar_edicao(self):
-        nome_popular = self.nome_popular_input.text().strip()
-        nome_cientifico = self.nome_cientifico_input.text().strip()
+    def salvar_dados(self):
+        nome_popular = self.nome_popular_input.text()
+        nome_cientifico = self.nome_cientifico_input.text()
 
         if not nome_popular or not nome_cientifico:
-            QMessageBox.critical(self, "Erro", "Preencha todos os campos!")
+            QMessageBox.warning(self, "Aviso", "Preencha todos os campos.")
             return
+
+        sucesso = self.controller.atualizar_planta(self.planta_id, nome_popular, nome_cientifico)
+
+        if sucesso:
+            QMessageBox.information(self, "Sucesso", "Planta atualizada com sucesso!")
+            self.close()
         else:
-            QMessageBox.information(self, "Sucesso", "Planta atualizada com sucesso!")  
-     
-        self.controller.atualizar_planta(self.planta_id, nome_popular, nome_cientifico)
+            QMessageBox.critical(self, "Erro", "Erro ao atualizar planta.")
 
-        self.close()
-
-    
-
-  

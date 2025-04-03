@@ -1,3 +1,5 @@
+# arrumar o botao de deletar
+
 import sys
 import os
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QLineEdit, QFileDialog, QMessageBox,  QTableWidget, QTableWidgetItem
@@ -5,7 +7,8 @@ from PyQt5.QtGui import QFont, QPixmap
 from PyQt5.QtCore import Qt
 
 from controller.controller import controller
-from view.editar_planta import editar_planta
+from view.editar_dados import editar_dados
+from view.deletar_dados import DeletarDado
 
 class view_dados(QWidget):
     def __init__(self):
@@ -26,7 +29,17 @@ class view_dados(QWidget):
         botao_atualizar.clicked.connect(self.carregar_dados)
         layout.addWidget(botao_atualizar)
         self.setLayout(layout)
+        self.carregar_dados()
 
+        botao_edicao = QPushButton("Editar") 
+        botao_edicao.clicked.connect(self.abrir_tela_edicao)
+        layout.addWidget(botao_edicao)
+        self.setLayout(layout)
+        self.abrir_tela_edicao()
+
+        botao_deletar = QPushButton("Deletar")
+        botao_deletar.clicked.connect(self.abrir_tela_delete)
+        layout.addWidget(botao_deletar)
 
     def carregar_dados(self):
         self.controller = controller()
@@ -44,6 +57,45 @@ class view_dados(QWidget):
             self.tabela.setItem(row, 3, QTableWidgetItem(str(dados[3])))
 
             self.tabela.viewport().update()
+
+    
+    def abrir_tela_edicao(self):
+        linha_selecionada = self.tabela.currentRow()
+
+        if linha_selecionada != -1:
+            id = int(self.tabela.item(linha_selecionada, 0).text())
+            temperatura = self.tabela.item(linha_selecionada, 1).text()
+            umidade = self.tabela.item(linha_selecionada, 2).text()
+            luminosidade = self.tabela.item(linha_selecionada, 3).text()
+
+            self.tela_edicao = editar_dados(id, luminosidade, umidade, temperatura)
+            self.tela_edicao.show()
+            self.close()  
+
+
+    def abrir_tela_delete(self):
+        linha_selecionada = self.tabela.currentRow()
+        
+        if linha_selecionada == -1:
+            QMessageBox.warning(self, "Aviso", "Selecione um item primeiro!")
+            return
+        
+        try:
+            id = self.tabela.item(linha_selecionada, 0)
+            if id is None:
+                raise ValueError("Nenhum ID encontrado na linha selecionada.")
+            
+            id = int(id.text())
+            print(f"ID Selecionado para Deletar: {id}")
+            
+            self.tela_delete = DeletarDado(id)
+            self.tela_delete.show()
+        except Exception as e:
+            QMessageBox.critical(self, "Erro", f"Erro: {str(e)}")
+
+
+
+
 
 
 
