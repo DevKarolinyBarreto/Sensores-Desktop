@@ -1,4 +1,5 @@
-# arrumar o botao de atualizar
+# arrumar o botao de atualizar 
+# ACHO QUE TA ARRUMADO
 
 import sys
 import os
@@ -30,6 +31,8 @@ class view_plantas(QWidget):
         botao_atualizar = QPushButton("Atualizar") 
         botao_atualizar.clicked.connect(self.carregar_dados)
         layout.addWidget(botao_atualizar)
+        self.setLayout(layout)
+        self.carregar_dados()  
 
         botao_edicao = QPushButton("Editar") 
         botao_edicao.clicked.connect(self.abrir_tela_edicao)
@@ -43,16 +46,22 @@ class view_plantas(QWidget):
         self.carregar_dados()
 
     def carregar_dados(self):
-        self.tabela.setRowCount(0)
-        dados = self.controller.obter_plantas()
+
+        self.controller = controller()
+        dados = self.controller.obter_plantas()       
+
         if not dados: 
             return 
 
         self.tabela.setRowCount(len(dados))
+
         for row, planta in enumerate(dados):
             self.tabela.setItem(row, 0, QTableWidgetItem(str(planta[0])))
             self.tabela.setItem(row, 1, QTableWidgetItem(planta[1]))
             self.tabela.setItem(row, 2, QTableWidgetItem(planta[2]))
+
+            self.tabela.viewport().update()
+
 
     def abrir_tela_edicao(self):
         linha_selecionada = self.tabela.currentRow()
